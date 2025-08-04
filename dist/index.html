@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+      HTML to Syqlorix Converter
+    </title>
+    <meta name="description" content="A real-time, professional-grade tool to convert full HTML documents into runnable Syqlorix Python code with a live preview and a VS Code-style editor.">
+    <link rel="icon" href="https://raw.githubusercontent.com/Syqlorix/Syqlorix/main/syqlorix-logo.svg" type="image/svg+xml">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <header class="header-bg text-center py-6">
+      <div class="flex items-center justify-center mb-2">
+        <img src="https://raw.githubusercontent.com/Syqlorix/Syqlorix/main/syqlorix-logo.svg" alt="Syqlorix Logo" class="w-8 h-8 mr-3">
+        <h1 class="text-2xl font-bold" style="color: var(--primary-color);">
+          HTML to Syqlorix Converter
+        </h1>
+      </div>
+      <p class="text-gray-400 mb-4 px-4">
+        A professional tool with a live preview and VS Code-style editor to convert any HTML document into a complete, runnable Syqlorix script.
+      </p>
+      <div class="flex items-center justify-center gap-3">
+        <label for="example-select" class="text-gray-400">
+          Load an Example:
+        </label>
+        <select id="example-select" class="select-custom">
+          <option value="simple">
+            Simple Page
+          </option>
+          <option value="advanced">
+            Advanced Demo
+          </option>
+          <option value="template">
+            App Template
+          </option>
+        </select>
+      </div>
+    </header>
+    <main class="flex-1 p-4 md:p-6">
+      <div class="desktop-layout">
+        <div class="space-y-6">
+          <div class="bg-gray-900 rounded-lg p-4">
+            <label class="block text-gray-400 font-bold mb-3">
+              HTML Input
+            </label>
+            <div id="html-input-container" class="editor-container">
+            </div>
+          </div>
+          <div class="bg-gray-900 rounded-lg p-4">
+            <div class="flex justify-between items-center mb-3">
+              <label class="text-gray-400 font-bold">
+                Syqlorix Output
+              </label>
+              <div class="flex gap-2">
+                <button id="copy-button" class="btn-primary text-sm">
+                  <i class="fas fa-copy mr-1">
+                  </i>
+                  Copy
+                </button>
+                <button id="download-button" class="btn-primary text-sm">
+                  <i class="fas fa-download mr-1">
+                  </i>
+                  Download .py
+                </button>
+              </div>
+            </div>
+            <div id="syqlorix-output-container" class="editor-container readonly">
+            </div>
+          </div>
+        </div>
+        <div class="preview-panel bg-gray-900 rounded-lg p-4 md:bg-transparent md:p-0">
+          <div class="flex justify-between items-center mb-3 md:bg-gray-900 md:rounded-lg md:p-4 md:mb-0">
+            <label class="text-gray-400 font-bold">
+              Live Output Preview
+            </label>
+            <button class="preview-close md:hidden text-gray-400 hover:text-white">
+              <i class="fas fa-times text-xl">
+              </i>
+            </button>
+          </div>
+          <div id="status-message" class="status mb-3">
+          </div>
+          <button id="fullscreen-button" class="btn-primary text-sm">
+            <i class="fas fa-expand mr-1">
+            </i>
+            Expand
+          </button>
+          <div class="flex-1 md:bg-gray-900 md:rounded-lg md:p-4">
+            <iframe id="preview-frame" title="Live Preview" sandbox="allow-scripts allow-same-origin" class="w-full h-96 md:h-full">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </main>
+    <button class="preview-toggle md:hidden">
+      <i class="fas fa-eye">
+      </i>
+    </button>
+    <footer class="header-bg text-center py-6">
+      <p class="text-gray-400">
+        Built for the
+        <a href="https://github.com/Syqlorix/Syqlorix" target="_blank" rel="noopener noreferrer" class="font-bold hover:underline" style="color: var(--primary-color);">
+          Syqlorix
+        </a>
+        project. This tool runs entirely in your browser.
+      </p>
+    </footer>
+    <div id="preview-modal" class="modal-overlay">
+      <button id="modal-close-button" class="modal-close-btn">
+        <i class="fas fa-times">
+        </i>
+      </button>
+      <iframe id="modal-preview-frame" title="Fullscreen Preview" sandbox="allow-scripts allow-same-origin">
+      </iframe>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.34.0/min/vs/loader.js">
+    </script>
+    <script src="https://syqlorix-canvas.vercel.app/script.js">
+    </script>
+  </body>
+</html>
