@@ -246,8 +246,11 @@ const convertHtmlToSyqlorix = (htmlString) => {
             if (jsContent.trim()) {
                 body_args.push('interactive_js');
             }
-            code += `from syqlorix import redirect, Blueprint  # v0.3 helpers\n\n`;
-            code += `doc = Syqlorix()\n\n`;
+            let code = "from syqlorix import *\n";
+            code += `\n# --- Optional: proxy external APIs during dev ---
+#doc.proxy("/path/api", "https://api.example.com/api")
+`;
+code += `doc = Syqlorix()\n\n`;
             if (cssContent.trim()) { 
                 code += `# --- Extracted CSS --- \n`;
                 code += `main_css = style("""\n${cssContent.trim()}\n""")\n\n`; 
@@ -268,12 +271,7 @@ const convertHtmlToSyqlorix = (htmlString) => {
             code += `# To run this script, save it as app.py and execute:\n`;
             code += `# syqlorix run app.py`;
 
-            code += `\n# --- Blueprint example (uncomment to use) ---
-            # api = Blueprint('api', url_prefix='/api')
-            # @api.route('/hello')
-            # def hello(req): return {"msg": "hi"}
-            # doc.register_blueprint(api)
-            `;
+            return { success: true, code: code };
         } else {
             const parser = new DOMParser();
             const doc = parser.parseFromString(`<body>${htmlString}</body>`, 'text/html');
@@ -288,11 +286,7 @@ const convertHtmlToSyqlorix = (htmlString) => {
 };
 
 const processNodeForPython = (node, indentLevel) => {
-    const pythonKeywords = new Set([
-    'for', 'in', 'is', 'if', 'else', 'elif', 'while', 'class', 'def', 'return', 'yield',
-    'lambda', 'with', 'as', 'try', 'except', 'finally', 'import', 'from', 'global',
-    'nonlocal', 'pass', 'assert', 'break', 'continue', 'del', 'raise', 'async', 'await'
-]);
+    const pythonKeywords = new Set(['for', 'in', 'is', 'if', 'else', 'while', 'class', 'def', 'return', 'yield', 'lambda', 'with', 'as', 'try', 'except', 'finally', 'import', 'from', 'global', 'nonlocal', 'pass', 'assert', 'break', 'continue', 'del', 'raise', 'async', 'await']);
     const indent = '    '.repeat(indentLevel);
     if (node.nodeType === Node.TEXT_NODE) { const text = node.textContent.trim(); return text ? `${indent}"${text.replace(/"/g, '\\"')}"` : null; }
     if (node.nodeType === Node.COMMENT_NODE) { const text = node.textContent.trim(); return `${indent}Comment("${text.replace(/"/g, '\\"')}")`; }
