@@ -212,7 +212,3 @@ body {
     color: var(--text-color);
     transform: rotate(90deg);
 }
-
-#fullscreen-button {
-    background-color: var(--secondary-color);
-}
